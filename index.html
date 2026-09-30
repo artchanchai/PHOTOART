@@ -3,78 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>แกลเลอรีรูปภาพกิจกรรม รัตนปูชนีนศรีปัญญา กษิณานุสรณ์</title>
+  <title>แกลเลอรีรูปภาพกิจกรรม - LongLen Photography</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ซ่อน Scrollbar ของ Modal แต่ยังเลื่อนได้ */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    body { font-family: 'Kanit', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800">
 
   <!-- Header -->
-  <header class="bg-white/80 backdrop-blur sticky top-0 z-20 px-4 md:px-8 py-3.5 shadow-sm flex justify-between items-center">
+  <header class="bg-white/90 backdrop-blur sticky top-0 z-20 px-4 md:px-8 py-3 shadow-sm border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
+    
+    <!-- ฝั่งซ้าย: โลโก้และข้อมูลระบบ/เพจ -->
     <div class="flex items-center gap-3">
-      <span class="text-2xl">📸</span>
+      <!-- โลโก้จำลอง LongLen Photography สไตล์มินิมอลวงกลมสีขาว -->
+      <div class="w-11 h-11 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white flex flex-col items-center justify-center shadow-sm overflow-hidden p-1 flex-shrink-0">
+        <!-- SVG กล้องและเลนส์ LongLen -->
+        <svg viewBox="0 0 100 60" class="w-full h-auto text-gray-900 fill-current">
+          <path d="M 30 18 L 36 8 L 64 8 L 70 18 L 92 18 C 95 18 97 20 97 23 L 97 53 C 97 56 95 58 92 58 L 8 58 C 5 58 3 56 3 53 L 3 23 C 3 20 5 18 8 18 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+          <circle cx="50" cy="36" r="15" fill="none" stroke="currentColor" stroke-width="3"/>
+          <!-- กลีบรูรับแสง (Aperture blades) -->
+          <line x1="50" y1="21" x2="57" y2="30" stroke="currentColor" stroke-width="2"/>
+          <line x1="57" y1="30" x2="65" y2="35" stroke="currentColor" stroke-width="2"/>
+          <line x1="65" y1="35" x2="58" y2="46" stroke="currentColor" stroke-width="2"/>
+          <line x1="58" y1="46" x2="48" y2="51" stroke="currentColor" stroke-width="2"/>
+          <line x1="48" y1="51" x2="38" y2="43" stroke="currentColor" stroke-width="2"/>
+          <line x1="38" y1="43" x2="42" y2="28" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span class="text-[7px] font-bold tracking-tight text-gray-900 -mt-0.5">LongLen</span>
+      </div>
+
+      <!-- ข้อความหัวเรื่องและเครดิต -->
       <div>
-        <h1 class="text-base md:text-lg font-bold text-gray-800 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนีนศรีปัญญา กษิณานุสรณ์</h1>
-        <p class="text-[11px] text-gray-500 flex items-center gap-1.5">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          อัปเดตอัตโนมัติทุก 1 นาที
+        <h1 class="text-sm md:text-base font-semibold text-gray-900 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนีนศรีปัญญา กษิณานุสรณ์</h1>
+        <p class="text-xs text-gray-500 flex items-center gap-1.5 flex-wrap">
+          <span>ระบบโดย</span>
+          <span class="font-medium text-gray-700">LongLen Photography ลองเลนส์ โฟโต้กราฟฟี่ ช่างภาพ</span>
+          <span class="inline-flex items-center gap-1 text-[11px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full font-normal">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            รีเฟรชทุก 1 นาที
+          </span>
         </p>
       </div>
     </div>
     
-    <!-- ปุ่มควบคุมมุมขวาบน -->
+    <!-- ฝั่งขวา: ปุ่มติดตาม Facebook + ปุ่มดาวน์โหลดทั้งหมด -->
     <div class="flex items-center gap-2">
-      <!-- ปุ่มรีเฟรชเองทันที -->
-      <button onclick="loadGallery(false)" title="รีเฟรชรูปภาพ" class="p-2 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 rounded-full transition active:rotate-180">
+      <!-- ปุ่มติดตามเพจ Facebook -->
+      <a 
+        href="https://www.facebook.com/100092829680227" 
+        target="_blank" 
+        class="bg-[#1877F2] hover:bg-[#0c63d4] text-white px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95"
+      >
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+        <span>ติดตามเพจ</span>
+      </a>
+
+      <!-- ปุ่มรีเฟรช -->
+      <button onclick="loadGallery(false)" title="รีเฟรชรูปภาพ" class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-gray-100 rounded-lg transition active:rotate-180">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
       </button>
 
       <!-- ปุ่มดาวน์โหลดทั้งหมด -->
-      <button onclick="downloadAllImages()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
+      <button onclick="downloadAllImages()" class="bg-gray-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
-        <span>ดาวน์โหลดทั้งหมด</span>
+        <span>โหลดทั้งหมด</span>
       </button>
     </div>
   </header>
 
-  <!-- เนื้อหา Gallery -->
+  <!-- Gallery Content -->
   <main class="max-w-7xl mx-auto p-4 md:p-6">
-    <!-- ตัวโหลดครั้งแรก -->
+    <!-- โหลดครั้งแรก -->
     <div id="initial-loading" class="flex flex-col items-center justify-center py-28">
       <div class="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
       <p class="mt-4 text-xs md:text-sm text-gray-500 font-medium">กำลังโหลดรูปภาพจากระบบ...</p>
     </div>
 
-    <!-- ข้อความเมื่อไม่มีรูป -->
+    <!-- กรณีไม่มีรูป -->
     <div id="empty-state" class="hidden text-center py-24 text-gray-400">
       <p class="text-sm">ยังไม่มีรูปภาพในโฟลเดอร์</p>
     </div>
 
-    <!-- Masonry Layout รักษาสัดส่วนแนวตั้ง-แนวนอนแท้จริงของภาพถ่าย -->
+    <!-- Masonry Layout แสดงตามสัดส่วนภาพถ่ายจริง (แนวตั้ง/แนวนอน) ไม่มีข้อความใต้ภาพ -->
     <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden">
-      <!-- Image Items จะถูกสร้างขึ้นที่นี่ -->
+      <!-- การ์ดภาพจะถูกสร้างที่นี่ -->
     </div>
   </main>
 
-  <!-- Modal สำหรับขยายรูปดูขนาดเต็ม -->
+  <!-- Modal ขยายรูปขนาดใหญ่ -->
   <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden flex flex-col justify-between items-center p-4 md:p-6 opacity-0 transition-opacity duration-300">
     <!-- แถบด้านบนของ Modal -->
     <div class="w-full flex justify-between items-center text-white px-2">
-      <span id="modal-title" class="text-xs md:text-sm font-light text-gray-300 truncate max-w-[60%]"></span>
+      <span id="modal-title" class="text-xs md:text-sm font-light text-gray-300 truncate max-w-[70%]"></span>
       <button onclick="closeModal()" class="p-2 hover:bg-white/10 rounded-full transition text-gray-300 hover:text-white">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -82,12 +115,12 @@
       </button>
     </div>
 
-    <!-- รูปภาพที่ขยาย -->
+    <!-- รูปภาพที่คลิกดู -->
     <div class="relative flex items-center justify-center flex-1 w-full max-h-[78vh] my-2">
       <img id="modal-img" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition duration-200">
     </div>
 
-    <!-- แถบด้านล่าง: ปุ่มดาวน์โหลดภาพนี้ -->
+    <!-- ปุ่มดาวน์โหลดภาพนี้ -->
     <div class="w-full flex justify-center pb-2">
       <a id="modal-download-btn" href="#" target="_blank" download class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-lg flex items-center gap-2 transition active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +135,6 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxfOAEoSE-iI1t5v_k7wvE50VI7mSTGFVYKbFp2Y6rTqZxF9DrnGu4O7hufjZ1J_WZs/exec";
     let cachedImages = [];
 
-    // ดึงข้อมูลรูปภาพ
     async function loadGallery(isBackground = false) {
       const initialLoading = document.getElementById("initial-loading");
       const emptyState = document.getElementById("empty-state");
@@ -122,7 +154,6 @@
         const result = await response.json();
 
         if (result.status === "success" && Array.isArray(result.data)) {
-          // ตรวจสอบว่ามีข้อมูลเปลี่ยนแปลงหรือไม่
           if (JSON.stringify(result.data) !== JSON.stringify(cachedImages)) {
             cachedImages = result.data;
             renderGallery(cachedImages);
@@ -135,7 +166,6 @@
       }
     }
 
-    // เรนเดอร์รูปภาพโดยรักษาสัดส่วน
     function renderGallery(photos) {
       const container = document.getElementById("gallery-container");
       const emptyState = document.getElementById("empty-state");
@@ -150,11 +180,11 @@
       emptyState.classList.add("hidden");
       container.classList.remove("hidden");
 
-      photos.forEach((photo, index) => {
+      photos.forEach((photo) => {
         const item = document.createElement("div");
         item.className = "break-inside-avoid overflow-hidden rounded-xl bg-gray-200 shadow-sm hover:shadow-md transition group cursor-pointer relative";
         
-        // แสดงรูปภาพตามอัตราส่วนจริง ไม่ครอบตัดรูป (h-auto w-full)
+        // แสดงรูปภาพตามสัดส่วนเดิมแท้จริง (w-full h-auto)
         item.innerHTML = `
           <img 
             src="${photo.thumbUrl}" 
@@ -162,8 +192,8 @@
             loading="lazy" 
             class="w-full h-auto block rounded-xl group-hover:scale-[1.02] transition duration-300 ease-out"
           />
-          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center rounded-xl">
-            <span class="bg-black/50 text-white rounded-full p-2.5 backdrop-blur-sm shadow">
+          <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center rounded-xl">
+            <span class="bg-black/60 text-white rounded-full p-2.5 backdrop-blur-sm shadow">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
               </svg>
@@ -176,14 +206,12 @@
       });
     }
 
-    // เปิด Modal ดูรูปขยาย
     function openModal(photo) {
       const modal = document.getElementById("image-modal");
       const modalImg = document.getElementById("modal-img");
       const modalTitle = document.getElementById("modal-title");
       const downloadBtn = document.getElementById("modal-download-btn");
 
-      // ใส่ภาพ Thumbnail ก่อนระหว่างรอภาพ Full โหลด
       modalImg.src = photo.fullUrl || photo.thumbUrl;
       modalTitle.textContent = photo.title || "";
       downloadBtn.href = photo.downloadUrl || photo.fullUrl;
@@ -192,10 +220,9 @@
       setTimeout(() => {
         modal.classList.remove("opacity-0");
       }, 10);
-      document.body.style.overflow = "hidden"; // ล็อกการเลื่อนหน้าจอ
+      document.body.style.overflow = "hidden";
     }
 
-    // ปิด Modal
     function closeModal() {
       const modal = document.getElementById("image-modal");
       modal.classList.add("opacity-0");
@@ -206,7 +233,6 @@
       }, 300);
     }
 
-    // ปิดด้วยปุ่ม Escape บนคีย์บอร์ด หรือคลิกพื้นที่ว่าง
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModal();
     });
@@ -216,17 +242,16 @@
       }
     });
 
-    // ฟังก์ชันดาวน์โหลดรูปภาพทั้งหมด
+    // ปุ่มดาวน์โหลดรูปภาพทั้งหมด
     function downloadAllImages() {
       if (cachedImages.length === 0) {
         alert("ยังไม่มีรูปภาพให้ดาวน์โหลด");
         return;
       }
 
-      const confirmDownload = confirm(`ต้องการเปิดดาวน์โหลดรูปภาพทั้งหมดจำนวน ${cachedImages.length} รูปใช่หรือไม่? (เบราว์เซอร์อาจขออนุญาตดาวน์โหลดหลายไฟล์พร้อมกัน)`);
+      const confirmDownload = confirm(`ต้องการเปิดดาวน์โหลดรูปภาพทั้งหมด ${cachedImages.length} รูปใช่หรือไม่?`);
       if (!confirmDownload) return;
 
-      // ดาวน์โหลดทีละรูปโดยเว้นช่วงเล็กน้อยเพื่อไม่ให้เบราว์เซอร์บล็อก
       cachedImages.forEach((photo, index) => {
         setTimeout(() => {
           const a = document.createElement("a");
@@ -240,10 +265,9 @@
       });
     }
 
-    // เริ่มต้นทำงานทันทีเมื่อโหลดหน้าเว็บ
+    // เริ่มต้นทำงานและตั้งเวลารีเฟรชทุก 1 นาที
     window.addEventListener("DOMContentLoaded", () => {
       loadGallery(false);
-      // ตั้งเวลารีเฟรชทุก 1 นาที (60,000 มิลลิวินาที)
       setInterval(() => {
         loadGallery(true);
       }, 60000);
