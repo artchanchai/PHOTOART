@@ -20,26 +20,22 @@
   <!-- Header -->
   <header class="bg-white/90 backdrop-blur sticky top-0 z-20 px-4 md:px-8 py-3 shadow-sm border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
     
-    <!-- ฝั่งซ้าย: โลโก้และข้อมูลระบบ/เพจ -->
+    <!-- ฝั่งซ้าย: โลโก้ JPEG และเครดิตเพจ -->
     <div class="flex items-center gap-3">
-      <!-- โลโก้จำลอง LongLen Photography สไตล์มินิมอลวงกลมสีขาว -->
-      <div class="w-11 h-11 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white flex flex-col items-center justify-center shadow-sm overflow-hidden p-1 flex-shrink-0">
-        <!-- SVG กล้องและเลนส์ LongLen -->
-        <svg viewBox="0 0 100 60" class="w-full h-auto text-gray-900 fill-current">
-          <path d="M 30 18 L 36 8 L 64 8 L 70 18 L 92 18 C 95 18 97 20 97 23 L 97 53 C 97 56 95 58 92 58 L 8 58 C 5 58 3 56 3 53 L 3 23 C 3 20 5 18 8 18 Z" fill="none" stroke="currentColor" stroke-width="3"/>
-          <circle cx="50" cy="36" r="15" fill="none" stroke="currentColor" stroke-width="3"/>
-          <!-- กลีบรูรับแสง (Aperture blades) -->
-          <line x1="50" y1="21" x2="57" y2="30" stroke="currentColor" stroke-width="2"/>
-          <line x1="57" y1="30" x2="65" y2="35" stroke="currentColor" stroke-width="2"/>
-          <line x1="65" y1="35" x2="58" y2="46" stroke="currentColor" stroke-width="2"/>
-          <line x1="58" y1="46" x2="48" y2="51" stroke="currentColor" stroke-width="2"/>
-          <line x1="48" y1="51" x2="38" y2="43" stroke="currentColor" stroke-width="2"/>
-          <line x1="38" y1="43" x2="42" y2="28" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        <span class="text-[7px] font-bold tracking-tight text-gray-900 -mt-0.5">LongLen</span>
+      <!-- 
+        👉 โลโก้ JPEG: 
+        เปลี่ยน src="logo.jpg" เป็นที่อยู่ไฟล์ภาพของคุณ เช่น "images/logo.jpg" หรือ URL รูปภาพ
+      -->
+      <div class="w-11 h-11 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white overflow-hidden shadow-sm flex-shrink-0 flex items-center justify-center">
+        <img 
+          src="Logo.jpg" 
+          alt="LongLen Photography Logo" 
+          class="w-full h-full object-cover"
+          onerror="this.onerror=null; this.src='https://placehold.co/100x100/ffffff/333333?text=LongLen';"
+        />
       </div>
 
-      <!-- ข้อความหัวเรื่องและเครดิต -->
+      <!-- ข้อความชื่อและเครดิต -->
       <div>
         <h1 class="text-sm md:text-base font-semibold text-gray-900 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนีนศรีปัญญา กษิณานุสรณ์</h1>
         <p class="text-xs text-gray-500 flex items-center gap-1.5 flex-wrap">
@@ -75,11 +71,11 @@
       </button>
 
       <!-- ปุ่มดาวน์โหลดทั้งหมด -->
-      <button onclick="downloadAllImages()" class="bg-gray-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
+      <button id="btn-download-all" onclick="downloadAllImages()" class="bg-gray-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
-        <span>โหลดทั้งหมด</span>
+        <span id="txt-download-all">โหลดทั้งหมด</span>
       </button>
     </div>
   </header>
@@ -92,14 +88,14 @@
       <p class="mt-4 text-xs md:text-sm text-gray-500 font-medium">กำลังโหลดรูปภาพจากระบบ...</p>
     </div>
 
-    <!-- กรณีไม่มีรูป -->
+    <!-- กรณีไม่มีรูปภาพ -->
     <div id="empty-state" class="hidden text-center py-24 text-gray-400">
       <p class="text-sm">ยังไม่มีรูปภาพในโฟลเดอร์</p>
     </div>
 
-    <!-- Masonry Layout แสดงตามสัดส่วนภาพถ่ายจริง (แนวตั้ง/แนวนอน) ไม่มีข้อความใต้ภาพ -->
+    <!-- Masonry Layout รักษาสัดส่วนรูปภาพแท้จริง -->
     <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden">
-      <!-- การ์ดภาพจะถูกสร้างที่นี่ -->
+      <!-- การ์ดภาพจะถูกเรนเดอร์ที่นี่ -->
     </div>
   </main>
 
@@ -120,21 +116,23 @@
       <img id="modal-img" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition duration-200">
     </div>
 
-    <!-- ปุ่มดาวน์โหลดภาพนี้ -->
+    <!-- ปุ่มดาวน์โหลดภาพเดี่ยวลงเครื่องโดยตรง -->
     <div class="w-full flex justify-center pb-2">
-      <a id="modal-download-btn" href="#" target="_blank" download class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-lg flex items-center gap-2 transition active:scale-95">
+      <button id="modal-download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-lg flex items-center gap-2 transition active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
-        ดาวน์โหลดภาพนี้ (ความละเอียดสูง)
-      </a>
+        <span id="modal-download-text">ดาวน์โหลดรูปนี้ลงเครื่อง</span>
+      </button>
     </div>
   </div>
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxfOAEoSE-iI1t5v_k7wvE50VI7mSTGFVYKbFp2Y6rTqZxF9DrnGu4O7hufjZ1J_WZs/exec";
     let cachedImages = [];
+    let currentActivePhoto = null;
 
+    // โหลดข้อมูลรูปภาพ
     async function loadGallery(isBackground = false) {
       const initialLoading = document.getElementById("initial-loading");
       const emptyState = document.getElementById("empty-state");
@@ -166,6 +164,7 @@
       }
     }
 
+    // แสดงรูปภาพตามสัดส่วนภาพจริง
     function renderGallery(photos) {
       const container = document.getElementById("gallery-container");
       const emptyState = document.getElementById("empty-state");
@@ -184,7 +183,6 @@
         const item = document.createElement("div");
         item.className = "break-inside-avoid overflow-hidden rounded-xl bg-gray-200 shadow-sm hover:shadow-md transition group cursor-pointer relative";
         
-        // แสดงรูปภาพตามสัดส่วนเดิมแท้จริง (w-full h-auto)
         item.innerHTML = `
           <img 
             src="${photo.thumbUrl}" 
@@ -206,15 +204,42 @@
       });
     }
 
+    // ฟังก์ชันดาวน์โหลดไฟล์ภาพลงเครื่องโดยตรง (Direct Download ผ่าน Blob)
+    async function triggerDirectDownload(photoUrl, filename) {
+      try {
+        const res = await fetch(photoUrl);
+        const blob = await res.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = blobUrl;
+        a.download = filename || "photo.jpg";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(a);
+      } catch (e) {
+        // แผนสำรองกรณี fetch ติด CORS: สั่ง trigger ดาวน์โหลดด้วย download attribute
+        const a = document.createElement("a");
+        a.href = photoUrl;
+        a.download = filename || "photo.jpg";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    }
+
+    // Modal ขยายรูป
     function openModal(photo) {
+      currentActivePhoto = photo;
       const modal = document.getElementById("image-modal");
       const modalImg = document.getElementById("modal-img");
       const modalTitle = document.getElementById("modal-title");
-      const downloadBtn = document.getElementById("modal-download-btn");
+      const downloadBtnText = document.getElementById("modal-download-text");
 
       modalImg.src = photo.fullUrl || photo.thumbUrl;
       modalTitle.textContent = photo.title || "";
-      downloadBtn.href = photo.downloadUrl || photo.fullUrl;
+      downloadBtnText.textContent = "ดาวน์โหลดรูปนี้ลงเครื่อง";
 
       modal.classList.remove("hidden");
       setTimeout(() => {
@@ -223,6 +248,7 @@
       document.body.style.overflow = "hidden";
     }
 
+    // ปิด Modal
     function closeModal() {
       const modal = document.getElementById("image-modal");
       modal.classList.add("opacity-0");
@@ -230,39 +256,62 @@
         modal.classList.add("hidden");
         document.getElementById("modal-img").src = "";
         document.body.style.overflow = "auto";
+        currentActivePhoto = null;
       }, 300);
     }
+
+    // ผูก Event ให้ปุ่มดาวน์โหลดเดี่ยวใน Modal
+    document.getElementById("modal-download-btn").addEventListener("click", async () => {
+      if (!currentActivePhoto) return;
+      const btnText = document.getElementById("modal-download-text");
+      btnText.textContent = "กำลังดาวน์โหลด...";
+      
+      const targetUrl = currentActivePhoto.fullUrl || currentActivePhoto.thumbUrl;
+      const targetName = currentActivePhoto.title || "photo.jpg";
+      
+      await triggerDirectDownload(targetUrl, targetName);
+      btnText.textContent = "ดาวน์โหลดเรียบร้อย!";
+      setTimeout(() => {
+        btnText.textContent = "ดาวน์โหลดรูปนี้ลงเครื่อง";
+      }, 2000);
+    });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModal();
     });
     document.getElementById("image-modal").addEventListener("click", (e) => {
-      if (e.target.id === "image-modal" || e.target.tagName === "IMG") {
-        if (e.target.id === "image-modal") closeModal();
-      }
+      if (e.target.id === "image-modal") closeModal();
     });
 
     // ปุ่มดาวน์โหลดรูปภาพทั้งหมด
-    function downloadAllImages() {
+    async function downloadAllImages() {
       if (cachedImages.length === 0) {
         alert("ยังไม่มีรูปภาพให้ดาวน์โหลด");
         return;
       }
 
-      const confirmDownload = confirm(`ต้องการเปิดดาวน์โหลดรูปภาพทั้งหมด ${cachedImages.length} รูปใช่หรือไม่?`);
+      const confirmDownload = confirm(`ต้องการดาวน์โหลดรูปภาพทั้งหมด ${cachedImages.length} รูปลงเครื่องใช่หรือไม่?`);
       if (!confirmDownload) return;
 
-      cachedImages.forEach((photo, index) => {
-        setTimeout(() => {
-          const a = document.createElement("a");
-          a.href = photo.downloadUrl;
-          a.target = "_blank";
-          a.download = photo.title || `image_${index + 1}.jpg`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        }, index * 400);
-      });
+      const btnAll = document.getElementById("btn-download-all");
+      const txtAll = document.getElementById("txt-download-all");
+      btnAll.disabled = true;
+
+      for (let i = 0; i < cachedImages.length; i++) {
+        const photo = cachedImages[i];
+        txtAll.textContent = `โหลด (${i + 1}/${cachedImages.length})`;
+        const targetUrl = photo.fullUrl || photo.thumbUrl;
+        const targetName = photo.title || `photo_${i + 1}.jpg`;
+        await triggerDirectDownload(targetUrl, targetName);
+        // เว้นช่วง 400ms เพื่อไม่ให้เบราว์เซอร์ตัดการดาวน์โหลด
+        await new Promise((r) => setTimeout(r, 400));
+      }
+
+      txtAll.textContent = "เสร็จสิ้น!";
+      setTimeout(() => {
+        txtAll.textContent = "โหลดทั้งหมด";
+        btnAll.disabled = false;
+      }, 2500);
     }
 
     // เริ่มต้นทำงานและตั้งเวลารีเฟรชทุก 1 นาที
