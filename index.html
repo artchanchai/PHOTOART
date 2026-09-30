@@ -4,145 +4,250 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>แกลเลอรีรูปภาพกิจกรรม</title>
-  <!-- โหลด Tailwind CSS เพื่อความสวยงามและ responsive -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ซ่อน Scrollbar ของ Modal แต่ยังเลื่อนได้ */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 min-h-screen text-gray-800">
+<body class="bg-gray-100 min-h-screen text-gray-800">
 
   <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-10 px-6 py-4 flex justify-between items-center">
+  <header class="bg-white/80 backdrop-blur sticky top-0 z-20 px-4 md:px-8 py-3.5 shadow-sm flex justify-between items-center">
     <div class="flex items-center gap-3">
-      <span class="text-2xl">🖼️</span>
+      <span class="text-2xl">📸</span>
       <div>
-        <h1 class="text-lg font-bold text-gray-800">แกลเลอรีรูปภาพกิจกรรม</h1>
-        <p class="text-xs text-gray-500">เรียกดูและดาวน์โหลดรูปภาพความละเอียดสูง</p>
+        <h1 class="text-base md:text-lg font-bold text-gray-800 leading-tight">แกลเลอรีรูปภาพกิจกรรม</h1>
+        <p class="text-[11px] text-gray-500 flex items-center gap-1.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          อัปเดตอัตโนมัติทุก 1 นาที
+        </p>
       </div>
     </div>
-    <button onclick="loadGallery()" class="text-sm px-3 py-1.5 border rounded-lg hover:bg-gray-100 flex items-center gap-1 transition">
-      🔄 รีเฟรช
-    </button>
+    
+    <!-- ปุ่มควบคุมมุมขวาบน -->
+    <div class="flex items-center gap-2">
+      <!-- ปุ่มรีเฟรชเองทันที -->
+      <button onclick="loadGallery(false)" title="รีเฟรชรูปภาพ" class="p-2 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 rounded-full transition active:rotate-180">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+      </button>
+
+      <!-- ปุ่มดาวน์โหลดทั้งหมด -->
+      <button onclick="downloadAllImages()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        <span>ดาวน์โหลดทั้งหมด</span>
+      </button>
+    </div>
   </header>
 
-  <main class="max-w-7xl mx-auto p-6">
-    <!-- กล่องแสดงสถานะกำลังโหลด (Spinner) -->
-    <div id="loading" class="flex flex-col items-center justify-center py-24">
-      <div class="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-      <p class="mt-4 text-gray-500 text-sm">กำลังโหลดรูปภาพจากระบบ...</p>
+  <!-- เนื้อหา Gallery -->
+  <main class="max-w-7xl mx-auto p-4 md:p-6">
+    <!-- ตัวโหลดครั้งแรก -->
+    <div id="initial-loading" class="flex flex-col items-center justify-center py-28">
+      <div class="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+      <p class="mt-4 text-xs md:text-sm text-gray-500 font-medium">กำลังโหลดรูปภาพจากระบบ...</p>
     </div>
 
-    <!-- กล่องแสดงข้อผิดพลาด (ถ้ามี) -->
-    <div id="error-box" class="hidden text-center py-16 text-red-500">
-      <p id="error-msg">เกิดข้อผิดพลาดในการโหลดรูปภาพ</p>
-      <button onclick="loadGallery()" class="mt-3 px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-sm">ลองใหม่อีกครั้ง</button>
+    <!-- ข้อความเมื่อไม่มีรูป -->
+    <div id="empty-state" class="hidden text-center py-24 text-gray-400">
+      <p class="text-sm">ยังไม่มีรูปภาพในโฟลเดอร์</p>
     </div>
 
-    <!-- กล่องแสดงรูปภาพ Grid -->
-    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
-      <!-- รูปภาพจะถูกสร้างใส่ตรงนี้ผ่าน JS -->
+    <!-- Masonry Layout รักษาสัดส่วนแนวตั้ง-แนวนอนแท้จริงของภาพถ่าย -->
+    <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden">
+      <!-- Image Items จะถูกสร้างขึ้นที่นี่ -->
     </div>
   </main>
 
+  <!-- Modal สำหรับขยายรูปดูขนาดเต็ม -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden flex flex-col justify-between items-center p-4 md:p-6 opacity-0 transition-opacity duration-300">
+    <!-- แถบด้านบนของ Modal -->
+    <div class="w-full flex justify-between items-center text-white px-2">
+      <span id="modal-title" class="text-xs md:text-sm font-light text-gray-300 truncate max-w-[60%]"></span>
+      <button onclick="closeModal()" class="p-2 hover:bg-white/10 rounded-full transition text-gray-300 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- รูปภาพที่ขยาย -->
+    <div class="relative flex items-center justify-center flex-1 w-full max-h-[78vh] my-2">
+      <img id="modal-img" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition duration-200">
+    </div>
+
+    <!-- แถบด้านล่าง: ปุ่มดาวน์โหลดภาพนี้ -->
+    <div class="w-full flex justify-center pb-2">
+      <a id="modal-download-btn" href="#" target="_blank" download class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-lg flex items-center gap-2 transition active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        ดาวน์โหลดภาพนี้ (ความละเอียดสูง)
+      </a>
+    </div>
+  </div>
+
   <script>
-    // ⚠️ ใส่ Web App URL ของคุณที่ลงท้ายด้วย /exec (ห้ามใช้ script.googleusercontent.com หรือ /dev)
     const API_URL = "https://script.google.com/macros/s/AKfycbxfOAEoSE-iI1t5v_k7wvE50VI7mSTGFVYKbFp2Y6rTqZxF9DrnGu4O7hufjZ1J_WZs/exec";
+    let cachedImages = [];
 
-    async function loadGallery() {
-      const loadingEl = document.getElementById("loading");
-      const galleryGrid = document.getElementById("gallery-grid");
-      const errorBox = document.getElementById("error-box");
+    // ดึงข้อมูลรูปภาพ
+    async function loadGallery(isBackground = false) {
+      const initialLoading = document.getElementById("initial-loading");
+      const emptyState = document.getElementById("empty-state");
+      const galleryContainer = document.getElementById("gallery-container");
 
-      // แสดง Loading ซ่อน Grid เดิม
-      loadingEl.classList.remove("hidden");
-      galleryGrid.classList.add("hidden");
-      errorBox.classList.add("hidden");
+      if (!isBackground && cachedImages.length === 0) {
+        initialLoading.classList.remove("hidden");
+        galleryContainer.classList.add("hidden");
+      }
 
       try {
-        // ใช้ redirect: "follow" เพื่อป้องกันการติดค้างตอน Google Apps Script redirect
         const response = await fetch(API_URL, {
           method: "GET",
           redirect: "follow"
         });
 
-        if (!response.ok) {
-          throw new Error("HTTP Status: " + response.status);
-        }
+        const result = await response.json();
 
-        const resData = await response.json();
-
-        // ตรวจสอบสถานะและข้อมูล Array ใน data
-        if (resData.status === "success" && Array.isArray(resData.data)) {
-          renderGallery(resData.data);
-        } else {
-          throw new Error(resData.message || "รูปแบบข้อมูลไม่ถูกต้อง");
+        if (result.status === "success" && Array.isArray(result.data)) {
+          // ตรวจสอบว่ามีข้อมูลเปลี่ยนแปลงหรือไม่
+          if (JSON.stringify(result.data) !== JSON.stringify(cachedImages)) {
+            cachedImages = result.data;
+            renderGallery(cachedImages);
+          }
         }
       } catch (err) {
-        console.error("Fetch Error:", err);
-        document.getElementById("error-msg").innerText = "ไม่สามารถโหลดรูปภาพได้: " + err.message;
-        errorBox.classList.remove("hidden");
+        console.error("Auto-fetch error:", err);
       } finally {
-        // ซ่อน Loading ทุกกรณี
-        loadingEl.classList.add("hidden");
+        initialLoading.classList.add("hidden");
       }
     }
 
-    function renderGallery(items) {
-      const galleryGrid = document.getElementById("gallery-grid");
-      galleryGrid.innerHTML = "";
+    // เรนเดอร์รูปภาพโดยรักษาสัดส่วน
+    function renderGallery(photos) {
+      const container = document.getElementById("gallery-container");
+      const emptyState = document.getElementById("empty-state");
+      container.innerHTML = "";
 
-      if (items.length === 0) {
-        galleryGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">ยังไม่มีรูปภาพในโฟลเดอร์</p>`;
-        galleryGrid.classList.remove("hidden");
+      if (photos.length === 0) {
+        emptyState.classList.remove("hidden");
+        container.classList.add("hidden");
         return;
       }
 
-      items.forEach(photo => {
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden border border-gray-100 flex flex-col";
+      emptyState.classList.add("hidden");
+      container.classList.remove("hidden");
 
-        card.innerHTML = `
-          <div class="relative bg-gray-100 aspect-video overflow-hidden">
-            <img 
-              src="${photo.thumbUrl}" 
-              alt="${photo.title}" 
-              loading="lazy"
-              class="w-full h-full object-cover hover:scale-105 transition duration-300"
-              onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'"
-            />
-          </div>
-          <div class="p-4 flex flex-col justify-between flex-1">
-            <div>
-              <h2 class="font-medium text-gray-800 text-sm truncate" title="${photo.title}">
-                ${photo.title}
-              </h2>
-              <p class="text-xs text-gray-400 mt-1">${photo.date || ''}</p>
-            </div>
-            <div class="mt-4 flex gap-2">
-              <a 
-                href="${photo.fullUrl}" 
-                target="_blank" 
-                class="flex-1 text-center py-1.5 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs rounded-lg transition"
-              >
-                ดูภาพเต็ม
-              </a>
-              <a 
-                href="${photo.downloadUrl}" 
-                target="_blank" 
-                class="flex-1 text-center py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs rounded-lg transition"
-              >
-                ดาวน์โหลด
-              </a>
-            </div>
+      photos.forEach((photo, index) => {
+        const item = document.createElement("div");
+        item.className = "break-inside-avoid overflow-hidden rounded-xl bg-gray-200 shadow-sm hover:shadow-md transition group cursor-pointer relative";
+        
+        // แสดงรูปภาพตามอัตราส่วนจริง ไม่ครอบตัดรูป (h-auto w-full)
+        item.innerHTML = `
+          <img 
+            src="${photo.thumbUrl}" 
+            alt="${photo.title || 'รูปภาพกิจกรรม'}" 
+            loading="lazy" 
+            class="w-full h-auto block rounded-xl group-hover:scale-[1.02] transition duration-300 ease-out"
+          />
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center rounded-xl">
+            <span class="bg-black/50 text-white rounded-full p-2.5 backdrop-blur-sm shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+              </svg>
+            </span>
           </div>
         `;
-        galleryGrid.appendChild(card);
-      });
 
-      // แสดงกริดรูปภาพ
-      galleryGrid.classList.remove("hidden");
+        item.addEventListener("click", () => openModal(photo));
+        container.appendChild(item);
+      });
     }
 
-    // เรียกโหลดทันทีเมื่อเปิดหน้าเว็บ
-    window.addEventListener("DOMContentLoaded", loadGallery);
+    // เปิด Modal ดูรูปขยาย
+    function openModal(photo) {
+      const modal = document.getElementById("image-modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalTitle = document.getElementById("modal-title");
+      const downloadBtn = document.getElementById("modal-download-btn");
+
+      // ใส่ภาพ Thumbnail ก่อนระหว่างรอภาพ Full โหลด
+      modalImg.src = photo.fullUrl || photo.thumbUrl;
+      modalTitle.textContent = photo.title || "";
+      downloadBtn.href = photo.downloadUrl || photo.fullUrl;
+
+      modal.classList.remove("hidden");
+      setTimeout(() => {
+        modal.classList.remove("opacity-0");
+      }, 10);
+      document.body.style.overflow = "hidden"; // ล็อกการเลื่อนหน้าจอ
+    }
+
+    // ปิด Modal
+    function closeModal() {
+      const modal = document.getElementById("image-modal");
+      modal.classList.add("opacity-0");
+      setTimeout(() => {
+        modal.classList.add("hidden");
+        document.getElementById("modal-img").src = "";
+        document.body.style.overflow = "auto";
+      }, 300);
+    }
+
+    // ปิดด้วยปุ่ม Escape บนคีย์บอร์ด หรือคลิกพื้นที่ว่าง
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+    document.getElementById("image-modal").addEventListener("click", (e) => {
+      if (e.target.id === "image-modal" || e.target.tagName === "IMG") {
+        if (e.target.id === "image-modal") closeModal();
+      }
+    });
+
+    // ฟังก์ชันดาวน์โหลดรูปภาพทั้งหมด
+    function downloadAllImages() {
+      if (cachedImages.length === 0) {
+        alert("ยังไม่มีรูปภาพให้ดาวน์โหลด");
+        return;
+      }
+
+      const confirmDownload = confirm(`ต้องการเปิดดาวน์โหลดรูปภาพทั้งหมดจำนวน ${cachedImages.length} รูปใช่หรือไม่? (เบราว์เซอร์อาจขออนุญาตดาวน์โหลดหลายไฟล์พร้อมกัน)`);
+      if (!confirmDownload) return;
+
+      // ดาวน์โหลดทีละรูปโดยเว้นช่วงเล็กน้อยเพื่อไม่ให้เบราว์เซอร์บล็อก
+      cachedImages.forEach((photo, index) => {
+        setTimeout(() => {
+          const a = document.createElement("a");
+          a.href = photo.downloadUrl;
+          a.target = "_blank";
+          a.download = photo.title || `image_${index + 1}.jpg`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }, index * 400);
+      });
+    }
+
+    // เริ่มต้นทำงานทันทีเมื่อโหลดหน้าเว็บ
+    window.addEventListener("DOMContentLoaded", () => {
+      loadGallery(false);
+      // ตั้งเวลารีเฟรชทุก 1 นาที (60,000 มิลลิวินาที)
+      setInterval(() => {
+        loadGallery(true);
+      }, 60000);
+    });
   </script>
 </body>
 </html>
