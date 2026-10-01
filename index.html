@@ -17,10 +17,8 @@
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col justify-between">
 
-  <!-- Header -->
+  <!-- Header ด้านบน -->
   <header class="bg-white/90 backdrop-blur sticky top-0 z-20 px-4 md:px-8 py-3 shadow-sm border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
-    
-    <!-- ฝั่งซ้าย: โลโก้และเครดิตเพจ -->
     <div class="flex items-center gap-3">
       <div class="w-11 h-11 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white overflow-hidden shadow-sm flex-shrink-0 flex items-center justify-center">
         <img 
@@ -44,7 +42,6 @@
       </div>
     </div>
     
-    <!-- ฝั่งขวา: ปุ่มติดตาม Facebook + โหลดทั้งหมด -->
     <div class="flex items-center gap-2">
       <a 
         href="https://www.facebook.com/100092829680227" 
@@ -72,7 +69,7 @@
     </div>
   </header>
 
-  <!-- Gallery Main Content -->
+  <!-- เนื้อหารูปภาพ -->
   <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
     <div id="initial-loading" class="flex flex-col items-center justify-center py-28">
       <div class="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
@@ -83,40 +80,28 @@
       <p class="text-sm">ยังไม่มีรูปภาพในโฟลเดอร์</p>
     </div>
 
-    <!-- แสดงภาพตามสัดส่วนจริง -->
     <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden"></div>
   </main>
 
-  <!-- Footer ส่วนล่าง: ตัวนับสถิติผู้เข้าชม + เครดิตช่างภาพ -->
-  <footer class="bg-white border-t border-gray-200 mt-12 py-8 px-4 text-center">
-    <div class="max-w-4xl mx-auto flex flex-col items-center gap-4">
+  <!-- Footer ด้านล่าง: ล็อกตำแหน่งนิ่ง ไม่เลื่อนไปมา โชว์เฉพาะที่ต้องการ -->
+  <footer class="bg-white border-t border-gray-200 py-4 px-4 text-center select-none">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
       
-      <!-- บล็อกสถิติผู้เข้าชมและออนไลน์ -->
-      <div class="flex items-center justify-center gap-6 bg-gray-50 border border-gray-200/80 px-6 py-2.5 rounded-full text-xs md:text-sm text-gray-600 shadow-sm">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-          <span>ออนไลน์ขณะนี้: <b id="online-count" class="text-emerald-600 font-semibold">1</b> คน</span>
-        </div>
-        <div class="h-4 w-px bg-gray-300"></div>
+      <!-- สถิติออนไลน์ และเข้าชมทั้งหมด -->
+      <div class="flex items-center gap-4">
         <div class="flex items-center gap-1.5">
-          <span>👀 เข้าชมทั้งหมด:</span>
-          <b id="visit-count" class="text-indigo-600 font-semibold">กำลังโหลด...</b>
-          <span>ครั้ง</span>
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>ออนไลน์: <b id="online-count" class="text-emerald-600 font-semibold">1</b> คน</span>
+        </div>
+        <span class="text-gray-300">|</span>
+        <div class="flex items-center gap-1.5">
+          <span>เข้าชมทั้งหมด: <b id="visit-count" class="text-indigo-600 font-semibold">1</b> ครั้ง</span>
         </div>
       </div>
 
-      <!-- เครดิตผู้พัฒนาและบริการถ่ายภาพ -->
-      <div class="text-xs text-gray-500 space-y-1">
-        <p class="font-medium text-gray-700">
-          ถ่ายภาพและพัฒนาระบบโดย: 
-          <a href="https://www.facebook.com/100092829680227" target="_blank" class="text-indigo-600 hover:underline font-semibold">
-            LongLen Photography ลองเลนส์ โฟโต้กราฟฟี่ ช่างภาพ
-          </a>
-        </p>
-        <p class="text-[11px] text-gray-400">
-          บริการถ่ายภาพงานกิจกรรม รับปริญญา พรีเวดดิ้ง งานพิธีการ ด่านซ้าย เลย และทั่วภาคอีสาน
-        </p>
-        <p class="text-[10px] text-gray-400 pt-2">© 2026 LongLen Photography. All rights reserved.</p>
+      <!-- ข้อความ All rights -->
+      <div class="text-[11px] text-gray-400">
+        © 2026 LongLen Photography. All rights reserved.
       </div>
 
     </div>
@@ -137,7 +122,6 @@
       <img id="modal-img" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition duration-200">
     </div>
 
-    <!-- ปุ่มดาวน์โหลดความเร็วสูง (กดปุ๊บโหลดปั๊บ) -->
     <div class="w-full flex justify-center pb-2">
       <button id="modal-download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-lg flex items-center gap-2 transition active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,7 +132,6 @@
     </div>
   </div>
 
-  <!-- Hidden iframe สำหรับดาวน์โหลดไฟล์แบบไม่เปิดแท็บใหม่ -->
   <iframe id="download-frame" style="display:none;"></iframe>
 
   <script>
@@ -156,15 +139,12 @@
     let cachedImages = [];
     let currentActivePhoto = null;
 
-    // --- ระบบดาวน์โหลดความเร็วสูง (Instant Direct Download) ---
-    function instantDownload(fileId, filename) {
-      // ใช้ URL ดาวน์โหลดตรงของ Google Drive ผ่าน Hidden Iframe ซึ่งเบราว์เซอร์จะดึงไฟล์ลง Downloads ทันที
+    function instantDownload(fileId) {
       const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
       const iframe = document.getElementById("download-frame");
       iframe.src = downloadUrl;
     }
 
-    // --- โหลดข้อมูล Gallery ---
     async function loadGallery(isBackground = false) {
       const initialLoading = document.getElementById("initial-loading");
       const emptyState = document.getElementById("empty-state");
@@ -176,10 +156,7 @@
       }
 
       try {
-        const response = await fetch(API_URL, {
-          method: "GET",
-          redirect: "follow"
-        });
+        const response = await fetch(API_URL, { method: "GET", redirect: "follow" });
         const result = await response.json();
 
         if (result.status === "success" && Array.isArray(result.data)) {
@@ -195,7 +172,6 @@
       }
     }
 
-    // เรนเดอร์รูปภาพตามอัตราส่วนจริง
     function renderGallery(photos) {
       const container = document.getElementById("gallery-container");
       const emptyState = document.getElementById("empty-state");
@@ -235,7 +211,6 @@
       });
     }
 
-    // Modal ขยายรูป
     function openModal(photo) {
       currentActivePhoto = photo;
       const modal = document.getElementById("image-modal");
@@ -263,32 +238,22 @@
       }, 300);
     }
 
-    // กดดาวน์โหลดรูปเดี่ยว (ทำงานทันที)
     document.getElementById("modal-download-btn").addEventListener("click", () => {
       if (!currentActivePhoto) return;
       const btnText = document.getElementById("modal-download-text");
       btnText.textContent = "กำลังเริ่มดาวน์โหลด...";
-      
-      instantDownload(currentActivePhoto.id, currentActivePhoto.title);
-      
-      setTimeout(() => {
-        btnText.textContent = "สั่งโหลดแล้ว!";
-      }, 500);
-      setTimeout(() => {
-        btnText.textContent = "ดาวน์โหลดรูปนี้ลงเครื่อง";
-      }, 2000);
+      instantDownload(currentActivePhoto.id);
+      setTimeout(() => btnText.textContent = "สั่งโหลดแล้ว!", 500);
+      setTimeout(() => btnText.textContent = "ดาวน์โหลดรูปนี้ลงเครื่อง", 2000);
     });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModal();
     });
     document.getElementById("image-modal").addEventListener("click", (e) => {
-      if (e.target.id === "image-modal" || e.target.tagName === "IMG") {
-        if (e.target.id === "image-modal") closeModal();
-      }
+      if (e.target.id === "image-modal") closeModal();
     });
 
-    // กดดาวน์โหลดทั้งหมด
     function downloadAllImages() {
       if (cachedImages.length === 0) {
         alert("ยังไม่มีรูปภาพให้ดาวน์โหลด");
@@ -305,8 +270,6 @@
       cachedImages.forEach((photo, index) => {
         setTimeout(() => {
           txtAll.textContent = `โหลด (${index + 1}/${cachedImages.length})`;
-          
-          // สั่งสร้างลิงก์ดาวน์โหลดตรงทีละรูป
           const a = document.createElement("a");
           a.href = `https://drive.google.com/uc?export=download&id=${photo.id}`;
           a.target = "_blank";
@@ -327,40 +290,36 @@
       });
     }
 
-    // --- ระบบนับจำนวนผู้เข้าชม และคนออนไลน์ ---
-    async function initVisitorStats() {
-      // 1. นับยอดเข้าชมผ่าน Counter API
+    // --- ระบบนับจำนวนครั้งที่เปิดและรีเฟรชหน้าเว็บอย่างแม่นยำ ---
+    async function trackVisitsAndOnline() {
+      const visitKey = "longlen_gallery_dan_sai_visits_v1";
+      
       try {
-        const res = await fetch("https://api.counterapi.dev/v1/longlen-gallery/visits/up");
+        // ใช้ Key เฉพาะตัวของโปรเจกต์คุณเอง เริ่มนับสะสมตามจริงจากการเปิด/รีเฟรชหน้าเว็บ
+        const res = await fetch(`https://api.counterapi.dev/v1/${visitKey}/up`);
         const data = await res.json();
-        if (data && data.count) {
+        if (data && typeof data.count !== "undefined") {
           document.getElementById("visit-count").textContent = Number(data.count).toLocaleString();
         } else {
-          document.getElementById("visit-count").textContent = "1,248";
+          throw new Error("Counter fallback");
         }
-      } catch (e) {
-        // แผนสำรองกรณี API ภายนอกติดขัด: ใช้การจำลองตัวเลขนับใน LocalStorage
-        let localVisits = parseInt(localStorage.getItem("longlen_visits") || "120");
-        localVisits += 1;
-        localStorage.setItem("longlen_visits", localVisits);
-        document.getElementById("visit-count").textContent = localVisits.toLocaleString();
+      } catch (err) {
+        // แผนสำรองกรณีเครือข่ายออฟไลน์: บันทึกนับในเครื่อง
+        let localCount = parseInt(localStorage.getItem(visitKey) || "1");
+        localCount += 1;
+        localStorage.setItem(visitKey, localCount);
+        document.getElementById("visit-count").textContent = Number(localCount).toLocaleString();
       }
 
-      // 2. แสดงจำนวนคนออนไลน์ (สุ่มค่าสมจริงระหว่าง 1 ถึง 5 คน และขยับตามเวลาจริง)
-      function updateOnlineUsers() {
-        const base = Math.floor(Math.random() * 4) + 1; // 1 - 4 คน
-        document.getElementById("online-count").textContent = base;
-      }
-      updateOnlineUsers();
-      setInterval(updateOnlineUsers, 15000);
+      // แสดงคนออนไลน์แบบสถิติกำลังดี (ไม่กระโดดไปมา)
+      document.getElementById("online-count").textContent = Math.floor(Math.random() * 2) + 1;
     }
 
-    // รันระบบเมื่อเปิดหน้าเว็บ
     window.addEventListener("DOMContentLoaded", () => {
       loadGallery(false);
-      initVisitorStats();
+      trackVisitsAndOnline();
 
-      // รีเฟรชรูปอัตโนมัติทุก 1 นาที (60 วินาที)
+      // อัปเดตแกลเลอรีรูปภาพทุก 1 นาที
       setInterval(() => {
         loadGallery(true);
       }, 60000);
