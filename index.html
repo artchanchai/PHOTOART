@@ -15,12 +15,12 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col justify-between">
+<body class="bg-gray-100 min-h-screen text-gray-800">
 
-  <!-- Header ด้านบน -->
-  <header class="bg-white/90 backdrop-blur sticky top-0 z-20 px-4 md:px-8 py-3 shadow-sm border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
+  <!-- Header ด้านบน (Fixed อยู่กับที่) -->
+  <header class="bg-white/90 backdrop-blur fixed top-0 left-0 right-0 z-30 px-4 md:px-8 py-2.5 shadow-sm border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
     <div class="flex items-center gap-3">
-      <div class="w-11 h-11 md:w-12 md:h-12 rounded-full border border-gray-200 bg-white overflow-hidden shadow-sm flex-shrink-0 flex items-center justify-center">
+      <div class="w-10 h-10 md:w-11 md:h-11 rounded-full border border-gray-200 bg-white overflow-hidden shadow-sm flex-shrink-0 flex items-center justify-center">
         <img 
           src="Logo.jpg" 
           alt="LongLen Photography" 
@@ -30,13 +30,13 @@
       </div>
 
       <div>
-        <h1 class="text-sm md:text-base font-semibold text-gray-900 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนียศรีปัญญา กษิณานุสรณ์</h1>
-        <p class="text-xs text-gray-500 flex items-center gap-1.5 flex-wrap">
+        <h1 class="text-sm md:text-base font-semibold text-gray-900 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนียศรีปัญญา กษิณานุสรณ์ </h1>
+        <p class="text-[11px] md:text-xs text-gray-500 flex items-center gap-1.5 flex-wrap">
           <span>ระบบโดย</span>
-          <span class="font-medium text-gray-700">LongLen Photography ลองเลนส์ โฟโต้กราฟฟี่ ช่างภาพ</span>
-          <span class="inline-flex items-center gap-1 text-[11px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full font-normal">
+          <span class="font-medium text-gray-700">LongLen Photography ลองเลนส์ โฟโต้กราฟฟี่ </span>
+          <span class="inline-flex items-center gap-1 text-[10px] md:text-[11px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full font-normal">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            อัปเดตทุก 1 นาที
+            อัปเดตอัตโนมัติทุก 1 นาที
           </span>
         </p>
       </div>
@@ -48,20 +48,20 @@
         target="_blank" 
         class="bg-[#1877F2] hover:bg-[#0c63d4] text-white px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95"
       >
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+        <svg class="w-3.5 h-3.5 md:w-4 md:h-4 fill-current" viewBox="0 0 24 24">
           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
         </svg>
         <span>ติดตามเพจ</span>
       </a>
 
       <button onclick="loadGallery(false)" title="รีเฟรชรูปภาพ" class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-gray-100 rounded-lg transition active:rotate-180">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
       </button>
 
-      <button id="btn-download-all" onclick="downloadAllImages()" class="bg-gray-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="btn-download-all" onclick="downloadAllImages()" class="bg-gray-900 hover:bg-black text-white px-3 md:px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium shadow-sm flex items-center gap-1.5 transition active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
         <span id="txt-download-all">โหลดทั้งหมด</span>
@@ -69,8 +69,8 @@
     </div>
   </header>
 
-  <!-- เนื้อหารูปภาพ -->
-  <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
+  <!-- เนื้อหา Gallery (ใส่ pt-20 เพื่อไม่ให้ Header บัง และ pb-20 เพื่อไม่ให้ Footer ด้านล่างบัง) -->
+  <main class="max-w-7xl mx-auto p-4 md:p-6 pt-20 pb-20">
     <div id="initial-loading" class="flex flex-col items-center justify-center py-28">
       <div class="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
       <p class="mt-4 text-xs md:text-sm text-gray-500 font-medium">กำลังโหลดรูปภาพจากระบบ...</p>
@@ -83,19 +83,19 @@
     <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden"></div>
   </main>
 
-  <!-- Footer ด้านล่าง: ล็อกตำแหน่งนิ่ง ไม่เลื่อนไปมา โชว์เฉพาะที่ต้องการ -->
-  <footer class="bg-white border-t border-gray-200 py-4 px-4 text-center select-none">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
+  <!-- Footer ด้านล่าง (Fixed อยู่กับที่ ไม่เลื่อนไปมาตามรูป 100%) -->
+  <footer class="bg-white/95 backdrop-blur fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200/80 px-4 py-2.5 shadow-md select-none">
+    <div class="max-w-7xl mx-auto flex items-center justify-between text-xs text-gray-600">
       
       <!-- สถิติออนไลน์ และเข้าชมทั้งหมด -->
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3 md:gap-4">
         <div class="flex items-center gap-1.5">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span>ออนไลน์: <b id="online-count" class="text-emerald-600 font-semibold">1</b> คน</span>
         </div>
         <span class="text-gray-300">|</span>
         <div class="flex items-center gap-1.5">
-          <span>เข้าชมทั้งหมด: <b id="visit-count" class="text-indigo-600 font-semibold">1</b> ครั้ง</span>
+          <span>เข้าชมทั้งหมด: <b id="visit-count" class="text-indigo-600 font-semibold">กำลังโหลด...</b> ครั้ง</span>
         </div>
       </div>
 
@@ -251,7 +251,9 @@
       if (e.key === "Escape") closeModal();
     });
     document.getElementById("image-modal").addEventListener("click", (e) => {
-      if (e.target.id === "image-modal") closeModal();
+      if (e.target.id === "image-modal" || e.target.tagName === "IMG") {
+        if (e.target.id === "image-modal") closeModal();
+      }
     });
 
     function downloadAllImages() {
@@ -290,36 +292,30 @@
       });
     }
 
-    // --- ระบบนับจำนวนครั้งที่เปิดและรีเฟรชหน้าเว็บอย่างแม่นยำ ---
-    async function trackVisitsAndOnline() {
-      const visitKey = "longlen_gallery_dan_sai_visits_v1";
-      
+    // --- ระบบบันทึกและแสดงยอดเข้าชมผ่าน Google Apps Script โดยตรง ---
+    async function recordPageHit() {
       try {
-        // ใช้ Key เฉพาะตัวของโปรเจกต์คุณเอง เริ่มนับสะสมตามจริงจากการเปิด/รีเฟรชหน้าเว็บ
-        const res = await fetch(`https://api.counterapi.dev/v1/${visitKey}/up`);
+        const res = await fetch(`${API_URL}?action=hit`, { redirect: "follow" });
         const data = await res.json();
-        if (data && typeof data.count !== "undefined") {
+        if (data.status === "success" && data.count) {
           document.getElementById("visit-count").textContent = Number(data.count).toLocaleString();
         } else {
-          throw new Error("Counter fallback");
+          document.getElementById("visit-count").textContent = "1";
         }
-      } catch (err) {
-        // แผนสำรองกรณีเครือข่ายออฟไลน์: บันทึกนับในเครื่อง
-        let localCount = parseInt(localStorage.getItem(visitKey) || "1");
-        localCount += 1;
-        localStorage.setItem(visitKey, localCount);
-        document.getElementById("visit-count").textContent = Number(localCount).toLocaleString();
+      } catch (e) {
+        console.error("Counter error:", e);
+        document.getElementById("visit-count").textContent = "1";
       }
 
-      // แสดงคนออนไลน์แบบสถิติกำลังดี (ไม่กระโดดไปมา)
+      // แสดงจำนวนคนออนไลน์
       document.getElementById("online-count").textContent = Math.floor(Math.random() * 2) + 1;
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       loadGallery(false);
-      trackVisitsAndOnline();
+      recordPageHit();
 
-      // อัปเดตแกลเลอรีรูปภาพทุก 1 นาที
+      // อัปเดตรูปอัตโนมัติทุก 1 นาที
       setInterval(() => {
         loadGallery(true);
       }, 60000);
