@@ -81,7 +81,7 @@
       <p class="text-sm">ยังไม่มีรูปภาพในโฟลเดอร์</p>
     </div>
 
-    <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden"></div>
+    <div id="gallery-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 hidden"></div>
   </main>
 
   <!-- Footer ด้านล่าง (Fixed อยู่กับที่ ไม่เลื่อนตามรูปภาพ) -->
@@ -194,16 +194,19 @@
 
       photos.forEach((photo) => {
         const item = document.createElement("div");
-        item.className = "break-inside-avoid overflow-hidden rounded-xl bg-gray-200 shadow-sm hover:shadow-md transition group cursor-pointer relative";
+        // สร้างการ์ดกรอบอัตราส่วน 4:3 (หรือปรับเป็น aspect-square ตามชอบ) 
+        // ภายในใช้ object-contain เพื่อรักษาสัดส่วนแนวตั้ง-แนวนอนแท้จริงของกล้อง
+        item.className = "group relative cursor-pointer overflow-hidden rounded-xl bg-gray-200/70 border border-gray-200 shadow-sm hover:shadow-md transition aspect-[4/3] flex items-center justify-center";
         
         item.innerHTML = `
           <img 
             src="${photo.thumbUrl}" 
             alt="${photo.title || 'รูปภาพกิจกรรม'}" 
             loading="lazy" 
-            class="w-full h-auto block rounded-xl group-hover:scale-[1.02] transition duration-300 ease-out"
+            class="w-full h-full object-contain p-1 group-hover:scale-105 transition duration-300 ease-out"
           />
-          <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center rounded-xl">
+          <!-- เอฟเฟกต์แว่นขยายตอนเอาเมาส์ชี้ -->
+          <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center rounded-xl pointer-events-none">
             <span class="bg-black/60 text-white rounded-full p-2.5 backdrop-blur-sm shadow">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
