@@ -9,6 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- โหลด Firebase SDK แบบ Realtime Database (ใช้งานได้ทันที) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     body { font-family: 'Kanit', sans-serif; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -17,7 +22,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800">
 
-  <!-- Header ด้านบน (Fixed อยู่กับที่) -->
+  <!-- Header ด้านบน (Fixed) -->
   <header class="bg-white/90 backdrop-blur fixed top-0 left-0 right-0 z-30 px-4 md:px-8 py-2.5 shadow-sm border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 md:w-11 md:h-11 rounded-full border border-gray-200 bg-white overflow-hidden shadow-sm flex-shrink-0 flex items-center justify-center">
@@ -30,13 +35,13 @@
       </div>
 
       <div>
-        <h1 class="text-sm md:text-base font-semibold text-gray-900 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนียศรีปัญญา กษิณานุสรณ์ </h1>
+        <h1 class="text-sm md:text-base font-semibold text-gray-900 leading-tight">แกลเลอรีรูปภาพกิจกรรม รัตนปูชนียศรีปัญญา กษิณานุสรณ์</h1>
         <p class="text-[11px] md:text-xs text-gray-500 flex items-center gap-1.5 flex-wrap">
           <span>ระบบโดย</span>
           <span class="font-medium text-gray-700">LongLen Photography ลองเลนส์ โฟโต้กราฟฟี่ </span>
           <span class="inline-flex items-center gap-1 text-[10px] md:text-[11px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full font-normal">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            อัปเดตอัตโนมัติทุก 1 นาที
+            อัปเดตสด Realtime
           </span>
         </p>
       </div>
@@ -69,7 +74,7 @@
     </div>
   </header>
 
-  <!-- เนื้อหา Gallery (ใส่ pt-20 เพื่อไม่ให้ Header บัง และ pb-20 เพื่อไม่ให้ Footer ด้านล่างบัง) -->
+  <!-- เนื้อหารูปภาพ -->
   <main class="max-w-7xl mx-auto p-4 md:p-6 pt-20 pb-20">
     <div id="initial-loading" class="flex flex-col items-center justify-center py-28">
       <div class="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
@@ -83,11 +88,10 @@
     <div id="gallery-container" class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 md:gap-4 space-y-3 md:space-y-4 hidden"></div>
   </main>
 
-  <!-- Footer ด้านล่าง (Fixed อยู่กับที่ ไม่เลื่อนไปมาตามรูป 100%) -->
+  <!-- Footer ด้านล่าง (Fixed อยู่กับที่ พร้อมตัวเลขอัปเดตสด Realtime) -->
   <footer class="bg-white/95 backdrop-blur fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200/80 px-4 py-2.5 shadow-md select-none">
     <div class="max-w-7xl mx-auto flex items-center justify-between text-xs text-gray-600">
       
-      <!-- สถิติออนไลน์ และเข้าชมทั้งหมด -->
       <div class="flex items-center gap-3 md:gap-4">
         <div class="flex items-center gap-1.5">
           <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -95,11 +99,10 @@
         </div>
         <span class="text-gray-300">|</span>
         <div class="flex items-center gap-1.5">
-          <span>เข้าชมทั้งหมด: <b id="visit-count" class="text-indigo-600 font-semibold">กำลังโหลด...</b> ครั้ง</span>
+          <span>เข้าชมทั้งหมด: <b id="visit-count" class="text-indigo-600 font-semibold">...</b> ครั้ง</span>
         </div>
       </div>
 
-      <!-- ข้อความ All rights -->
       <div class="text-[11px] text-gray-400">
         © 2026 LongLen Photography. All rights reserved.
       </div>
@@ -292,30 +295,71 @@
       });
     }
 
-    // --- ระบบบันทึกและแสดงยอดเข้าชมผ่าน Google Apps Script โดยตรง ---
-    async function recordPageHit() {
-      try {
-        const res = await fetch(`${API_URL}?action=hit`, { redirect: "follow" });
-        const data = await res.json();
-        if (data.status === "success" && data.count) {
-          document.getElementById("visit-count").textContent = Number(data.count).toLocaleString();
-        } else {
-          document.getElementById("visit-count").textContent = "1";
-        }
-      } catch (e) {
-        console.error("Counter error:", e);
-        document.getElementById("visit-count").textContent = "1";
-      }
+    // --- ระบบนับจำนวนออนไลน์ และยอดเข้าชมแบบ Realtime แท้จริง ---
+    function initRealtimePresence() {
+      // ฐานข้อมูล Realtime Cloud สำหรับเพจ LongLen โดยเฉพาะ
+      const firebaseConfig = {
+        databaseURL: "https://longlen-gallery-default-rtdb.asia-southeast1.firebasedatabase.app"
+      };
 
-      // แสดงจำนวนคนออนไลน์
-      document.getElementById("online-count").textContent = Math.floor(Math.random() * 2) + 1;
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // 1. ตัวนับจำนวนคนออนไลน์สด (ตรวจจับ 2 เครื่องพร้อมกันได้ทันที)
+        const onlineRef = db.ref("presence");
+        const connectedRef = db.ref(".info/connected");
+
+        connectedRef.on("value", (snap) => {
+          if (snap.val() === true) {
+            // เมื่อเครื่องนี้เชื่อมต่อ จะเพิ่ม Node สถานะของตัวเอง
+            const userRef = onlineRef.push();
+            userRef.set(true);
+            // เมื่อปิดแท็บ/ปิดเน็ต ให้ลบตัวเองออกทันที
+            userRef.onDisconnect().remove();
+          }
+        });
+
+        // คอยดักฟังการเปลี่ยนแปลงคนออนไลน์แบบ Realtime
+        onlineRef.on("value", (snap) => {
+          const count = snap.numChildren();
+          document.getElementById("online-count").textContent = Math.max(1, count);
+        });
+
+        // 2. ตัวนับยอดเข้าชมสะสม (เปิด/รีเฟรช = บวก 1 ทันที และ Sync ทุกเครื่อง)
+        const visitsRef = db.ref("stats/total_visits");
+        
+        // เพิ่มค่ายอดเข้าชมเมื่อเปิดหน้าใหม่ (Transaction ป้องกันค่านับซ้ำ)
+        visitsRef.transaction((current) => {
+          return (current || 0) + 1;
+        });
+
+        // ฟังยอดที่ขยับขึ้นแบบสดๆ
+        visitsRef.on("value", (snap) => {
+          const total = snap.val() || 1;
+          document.getElementById("visit-count").textContent = Number(total).toLocaleString();
+        });
+
+      } catch (err) {
+        console.warn("Realtime service unavailable, using Apps Script fallback:", err);
+        // Fallback: ดึงจาก Apps Script หาก Realtime ขัดข้อง
+        fetch(`${API_URL}?action=hit`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === "success") {
+              document.getElementById("visit-count").textContent = Number(data.count).toLocaleString();
+            }
+          });
+      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       loadGallery(false);
-      recordPageHit();
+      initRealtimePresence();
 
-      // อัปเดตรูปอัตโนมัติทุก 1 นาที
+      // เช็ครูปใหม่ทุก 1 นาที
       setInterval(() => {
         loadGallery(true);
       }, 60000);
